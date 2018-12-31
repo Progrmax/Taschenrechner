@@ -19,14 +19,15 @@ double number1, number2;
 double bruch1, bruch2, bruch3, bruch4;
 double answer;
 
+
     /**
      * Creates new form TaschenrechnerForm
      */
     public TaschenrechnerForm() {
         
         initComponents();
-        auslesen();
         getContentPane().setBackground(Color.BLACK);
+        
 
     }
 
@@ -172,59 +173,51 @@ double answer;
 
         pack();
     }// </editor-fold>                        
+    public void aulesenalles(){
+        
+    }
     public void rechenoptionen(){
         switch(opt){
             case 1: 
                 answer = number1 + number2;
-                this.answerLabel.append(number1 + "+" + number2 + " = " + answer+ "\n");
                 break;
             case 2:
                 answer = number1 - number2;
-                this.answerLabel.append(number1 + "-" + number2 + " = " + answer+ "\n");
                 break;
             case 3:
                 answer = number1 / number2;
-                this.answerLabel.append(number1 + "/" + number2 + " = " + answer+ "\n");
                 break;
             case 4: 
                 answer = number1 * number2;
-                this.answerLabel.append(number1 + "*" + number2 + " = " + answer+ "\n");
                 break;
             case 5:
                 answer = Math.pow(number1, number2);
-                this.answerLabel.append(number1 + "^" + number2 + " = " + answer+ "\n");
                 break;
             case 6:
                 answer = Math.pow(number2, 1.0/number1);
-                this.answerLabel.append(number1 + "√" + number2 + " = " + answer + "\n");
                 break;
             case 7:
                 answer = bruch1/bruch2 + bruch3/bruch4;
-                this.answerLabel.append(bruch1 + "/" + bruch2 + "+" + bruch3 + "/" + bruch4 + " = " + answer + "\n");
                 break;
             case 8:
                 answer = bruch1/bruch2 - bruch3/bruch4;
-                this.answerLabel.append(bruch1 + "/" + bruch2 + "-" + bruch3 + "/" + bruch4 + " = " + answer + "\n");
                 break;
             case 9:
                 answer = (bruch1/bruch3) / (bruch2/bruch4);
-                this.answerLabel.append(bruch1 + "/" + bruch2 + "/" + bruch3 + "/" + bruch4 + " = " + answer + "\n");
                 break;
             case 10:
                 answer = (bruch1*bruch3) / (bruch2*bruch4);
-                this.answerLabel.append(bruch1 + "/" + bruch2 + "*" + bruch3 + "/" + bruch4 + " = " + answer + "\n");
                 break;
             case 11:
                 answer = Math.pow((bruch1/bruch2), (bruch3/bruch4));
-                this.answerLabel.append(bruch1 + "/" + bruch2 + "^" + bruch3 + "/" + bruch4 + " = " + answer + "\n");
                 break;
             case 12:
                 answer = Math.pow((bruch3/bruch4), (1.0/(bruch1/bruch2)));
-                this.answerLabel.append(bruch1 + "/" + bruch2 + "√" + bruch3 + "/" + bruch4 + " = " + answer + "\n");
                 break;
             default:
                 break;
         }
+        this.answerLabel.append(this.rechenfeld.getText() + " = " + answer + "\n");
         this.rechenfeld.setText("");
     }
     public void auslesenbrüche(String[] nummer1, String feld){
@@ -281,42 +274,37 @@ double answer;
                     number1 = Double.parseDouble(feld.substring(0,i));
                     number2 = Double.parseDouble(feld.substring(i+1,feld.length()));
                     opt = 1;
-                    rechenoptionen();
                     break;
                 case "-":
                     number1 = Double.parseDouble(feld.substring(0,i));
                     number2 = Double.parseDouble(feld.substring(i+1,feld.length()));
                     opt = 2;
-                    rechenoptionen();
                     break;
                 case "/":
                     number1 = Double.parseDouble(feld.substring(0,i));
                     number2 = Double.parseDouble(feld.substring(i+1,feld.length()));
                     opt = 3;
-                    rechenoptionen();
                     break;
                 case "*":
                     number1 = Double.parseDouble(feld.substring(0,i));
                     number2 = Double.parseDouble(feld.substring(i+1,feld.length()));
                     opt = 4;
-                    rechenoptionen();
                     break;
                 case "^":
                     number1 = Double.parseDouble(feld.substring(0,i));
                     number2 = Double.parseDouble(feld.substring(i+1,feld.length()));
                     opt = 5;
-                    rechenoptionen();
                     break;
                 case "√":
                     number1 = Double.parseDouble(feld.substring(0,i));
                     number2 = Double.parseDouble(feld.substring(i+1,feld.length()));
                     opt = 6;
-                    rechenoptionen();
                     break;
                 default:
                     break;
             }
 	}
+        rechenoptionen();
     }
     public void auslesen(){
 	String feld = this.rechenfeld.getText();
@@ -324,22 +312,29 @@ double answer;
 	for (int i = 0;i<feld.length(); i++) {
             nummer1[i] = feld.valueOf(feld.charAt(i));
         }
-        int z = 0;
+        int z1 = 0;
+        int z2 = 0;
         for(int i = 0;i<feld.length(); i++) {
+            if(nummer1[i].equals("+") || nummer1[i].equals("-") || nummer1[i].equals("*") || nummer1[i].equals("^") || nummer1[i].equals("√") || nummer1[i].equals("0") || nummer1[i].equals("1") || nummer1[i].equals("2") || nummer1[i].equals("3") || nummer1[i].equals("4") || nummer1[i].equals("5") || nummer1[i].equals("6") || nummer1[i].equals("7") || nummer1[i].equals("8") || nummer1[i].equals("9")){
+                z2++;     
+            }
             if(nummer1[i].equals("/")){
-                z++;   
+                z1++;
+                z2++;
             }
         }
-        if(z==2){
+    switch (z1) {
+        case 2:
             auslesenbrüche(nummer1, feld);
-        }
-        else if(z==3){
+            break;
+        case 3:
             opt = 9;
             auslesenbrüche(nummer1, feld);
-        }
-        else{
+            break;
+        default:
             ausleseneinfach(nummer1, feld);
-        }
+            break;
+    }
     }
     
     private void plusButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
@@ -362,7 +357,7 @@ double answer;
         this.rechenfeld.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e){
-                if(e.getKeyCode()== KeyEvent.VK_ENTER){
+                if(e.getKeyCode()== KeyEvent.VK_ENTER && !rechenfeld.getText().equals("")){
                     auslesen();    
                 }
             }
